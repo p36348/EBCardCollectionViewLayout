@@ -177,7 +177,7 @@ static NSString * const CellKind = @"CardCell";
             retVal.x = nextPage * [self pageWidth];
             
             if (nextPage < [self.collectionView numberOfItemsInSection:0]) {
-                retVal.x = MAX(retVal.x - _offset.horizontal/2, 0);
+                retVal.x = MAX(retVal.x, 0);
             }
             
         } else {
@@ -191,7 +191,7 @@ static NSString * const CellKind = @"CardCell";
     } else {
         //  Bounces
         if (_layoutType == EBCardCollectionLayoutHorizontal) {
-            CGFloat posX = round(rawPageValue) * [self pageWidth] - _offset.horizontal/2;
+            CGFloat posX = round(rawPageValue) * [self pageWidth];
             posX = MAX(0, posX);
             retVal.x = posX;
         } else {
@@ -213,12 +213,14 @@ static NSString * const CellKind = @"CardCell";
     CGRect retVal = CGRectZero;
     
     if (_layoutType == EBCardCollectionLayoutHorizontal) {
-        NSInteger posX = _offset.horizontal / 2 + [self pageWidth] * indexPath.row;
+        //        NSInteger posX = _offset.horizontal / 2 + [self pageWidth] * indexPath.row;
+        //
+        //        if ([self.collectionView numberOfItemsInSection:0] == 1) {
+        //            //  If there's just an only item. Center it.
+        //            posX = _offset.horizontal + [self pageWidth] * indexPath.row;
+        //        }
         
-        if ([self.collectionView numberOfItemsInSection:0] == 1) {
-            //  If there's just an only item. Center it.
-            posX = _offset.horizontal + [self pageWidth] * indexPath.row;
-        }
+        NSInteger posX = _offset.horizontal + [self pageWidth] * indexPath.row;
         
         retVal = CGRectMake(posX,
                             _offset.vertical,
